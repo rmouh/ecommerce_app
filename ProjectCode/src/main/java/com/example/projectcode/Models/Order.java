@@ -14,7 +14,7 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserApp user;
 
     @Column(nullable = false)
     private Date orderDate;
@@ -31,7 +31,7 @@ public class Order {
     public Order() {}
 
     // Constructor with fields
-    public Order(User user, Date orderDate, String status) {
+    public Order(UserApp user, Date orderDate, String status) {
         this.user = user;
         this.orderDate = orderDate;
         this.status = status;
@@ -45,11 +45,11 @@ public class Order {
         this.id = id;
     }
 
-    public User getUser() {
+    public UserApp getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserApp user) {
         this.user = user;
     }
 

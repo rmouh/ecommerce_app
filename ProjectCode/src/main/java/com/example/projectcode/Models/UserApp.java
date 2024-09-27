@@ -1,18 +1,22 @@
 package com.example.projectcode.Models;
 
+
 import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class UserApp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
+
+    @Column(unique = true)
+    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -32,15 +36,16 @@ public class User {
     // Getters and Setters
 
     // Default constructor
-    public User() {}
+    public UserApp() {}
 
     // Constructor with fields
-    public User(String email, String password, String firstName, String lastName, String address) {
+    public UserApp(String email, String password, String firstName, String lastName, String address, String username) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
+        this.username = username;
     }
 
     // toString, equals, and hashCode methods (optional)
@@ -49,6 +54,15 @@ public class User {
     public Long getId() {
         return id;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsera(String usera) {
+        this.username = username;
+    }
+
 
     public void setId(Long id) {
         this.id = id;
@@ -102,4 +116,5 @@ public class User {
         this.orders = orders;
     }
 }
+
 

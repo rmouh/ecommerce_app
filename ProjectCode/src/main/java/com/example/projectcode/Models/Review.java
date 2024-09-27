@@ -17,7 +17,7 @@ public class Review {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserApp user;
 
     @Column(nullable = false)
     private int rating;
@@ -31,7 +31,7 @@ public class Review {
     public Review() {}
 
     // Constructor with fields
-    public Review(Product product, User user, int rating, String comment) {
+    public Review(Product product, UserApp user, int rating, String comment) {
         this.product = product;
         this.user = user;
         this.rating = rating;
@@ -54,11 +54,11 @@ public class Review {
         this.product = product;
     }
 
-    public User getUser() {
+    public UserApp getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserApp user) {
         this.user = user;
     }
 

@@ -20,8 +20,8 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
-    @Column(nullable = false)
-    private int stockQuantity;
+    //@Column(nullable = false)
+    //private int stockQuantity;
 
     @Column
     private String imageUrl;
@@ -36,7 +36,7 @@ public class Product {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.stockQuantity = stockQuantity;
+        //this.stockQuantity = stockQuantity;
         this.imageUrl = imageUrl;
     }
 
@@ -75,13 +75,13 @@ public class Product {
         this.price = price;
     }
 
-    public int getStockQuantity() {
+    /*public int getStockQuantity() {
         return stockQuantity;
     }
 
     public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
-    }
+    }*/
 
     public String getImageUrl() {
         return imageUrl;
