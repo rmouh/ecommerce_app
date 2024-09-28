@@ -1,7 +1,6 @@
 package com.example.e_commerce.Controllers;
-import com.example.e_commerce.Models.LoginDto;
-import com.example.e_commerce.Models.RegisterDto;
-import com.example.e_commerce.Models.UserApp;
+
+import com.example.e_commerce.Models.*;
 import com.example.e_commerce.Repositories.UserRepository;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import jakarta.validation.Valid;
@@ -52,6 +51,16 @@ public class AcountController {
     //result used to check if data is valid
 
     //Methode to register a new user
+
+    /*
+    {
+    "firstName": "Rankkissxcfcxswca",
+    "lastName": "Manklwsfsvxxcxswxw!l",
+    "password": "Myspdsjcxxvsssvfsbvjjjjs123",
+    "email": "ranabbFsùvxmksfsjwxDQ@gmail.com",
+    "username": "randjlsvxsxnFsFFlfmanel00"
+    }
+    */
     public ResponseEntity<Object> register(
             @Valid @RequestBody RegisterDto registerDto, BindingResult result){
 
@@ -102,6 +111,13 @@ public class AcountController {
         return ResponseEntity.badRequest().body("Error");
     }
     // Methode to login using password and username
+
+    /*
+    {
+    "password": "Myspdsjcxxvsssvfsbvjjjjs123",
+    "username": "randjlsvxsxnFsFFlfmanel00"
+    }
+     */
     @PostMapping("/login")
     public ResponseEntity<Object> login(
             @Valid @RequestBody LoginDto loginDto, BindingResult result){

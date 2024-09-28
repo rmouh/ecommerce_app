@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/account").permitAll()
                         .requestMatchers("/account/register").permitAll()
                         .requestMatchers("/account/login").permitAll()
+                        .requestMatchers("/api/collections/add").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt((Customizer.withDefaults())))

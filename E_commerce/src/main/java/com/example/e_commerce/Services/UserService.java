@@ -2,8 +2,9 @@ package com.example.e_commerce.Services;
 
 
 
-import com.example.e_commerce.Models.UserApp;
+import com.example.e_commerce.Models.*;
 import com.example.e_commerce.Repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -20,6 +23,25 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repo;
+
+    @Autowired
+    private OrderService orderService;  // Si tu as un service pour les commandes
+
+    public Map<String, Object> getUserProfile(String username) {
+        UserApp user = repo.findByUsername(username);
+        if (user == null) {
+            throw new EntityNotFoundException("User not found");
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("User", user);
+
+        // Si tu as une entité Order pour les commandes
+        List<Order> orders = orderService.findOrdersByUserId(user.getId());
+        response.put("Orders", orders);
+
+        return response;
+    }
 
     //read the user from db based on the username
     //!! can add a findByEmail if needed
