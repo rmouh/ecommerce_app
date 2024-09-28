@@ -28,6 +28,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(cors -> cors.disable())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/home").permitAll()
@@ -40,7 +41,7 @@ public class SecurityConfig {
     }
     @Bean
     public JwtDecoder jwyDecoder(){
-        var secretKey = new SecretKeySpec((jwtSecretKey.getBytes()), "");
+        var secretKey = new SecretKeySpec((jwtSecretKey.getBytes()), "HmacSHA256");
         return NimbusJwtDecoder.withSecretKey(secretKey)
                 .macAlgorithm(MacAlgorithm.HS256).build();
 
