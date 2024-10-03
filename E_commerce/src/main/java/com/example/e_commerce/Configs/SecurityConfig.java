@@ -19,6 +19,9 @@ import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.crypto.spec.SecretKeySpec;
 
@@ -41,7 +44,11 @@ public class SecurityConfig {
                         .requestMatchers("/{id}").permitAll()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/account").permitAll()
+                        .requestMatchers("/account/**").permitAll()
                         .requestMatchers("/account/register").permitAll()
+                        .requestMatchers("/products/**").permitAll()
+                        .requestMatchers("/products").permitAll()
+                        .requestMatchers("/products/").permitAll()
                         .requestMatchers("/account/login").permitAll()
                         .requestMatchers("/api/collections/add").permitAll()
                         .anyRequest().authenticated()
@@ -66,6 +73,17 @@ public class SecurityConfig {
         provider.setUserDetailsService(userService);
         provider.setPasswordEncoder(new BCryptPasswordEncoder());
         return  new ProviderManager(provider);
+    }
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOriginPattern("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
     /*
     @Autowired

@@ -2,7 +2,7 @@ package com.example.e_commerce.Models;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name = "products")
 public class Product {
@@ -27,6 +27,7 @@ public class Product {
     private String imageUrl;
     @ManyToOne(optional=true)
     @JoinColumn(name = "collection_id", nullable = true)  // Foreign key vers Collection
+    @JsonBackReference
     private Collection collection;
 
     public Collection getCollection() {

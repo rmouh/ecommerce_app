@@ -1,7 +1,7 @@
 package com.example.e_commerce.Models;
 
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -24,6 +24,7 @@ public class Collection {
     private Long nbProducts = 0L;  // Valeur par défau
     // Relation OneToMany avec Product
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Product> products;
 
     public Collection() {

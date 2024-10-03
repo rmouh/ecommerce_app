@@ -19,18 +19,24 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import static com.example.e_commerce.Configs.SecurityConfig.SECRET_KEY;
+import org.slf4j.Logger; // Import pour le logger
+import org.slf4j.LoggerFactory; // Import pour le logger
 
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/account")
 public class AcountController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    // Déclaration du Logger
+    private static final Logger logger = LoggerFactory.getLogger(AcountController.class);
+
 
     //reading the jeson web token params from properties
     //@Value("$security.jwt.secret-key")
@@ -46,6 +52,7 @@ public class AcountController {
     public  String home(){
         return "Home page";
     }
+
     @PostMapping("/register")
     //RegistDto ibject contains the submited data
     //result used to check if data is valid
@@ -110,6 +117,60 @@ public class AcountController {
         }
         return ResponseEntity.badRequest().body("Error");
     }
+    // Méthode pour obtenir un utilisateur spécifique par ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getUserById(@PathVariable Long id) {
+        try {
+            // Récupération de l'utilisateur par ID
+            var user = repo.findById(id);
+
+            // Vérification si l'utilisateur existe
+            if (user.isPresent()) {
+                return ResponseEntity.ok(user.get());
+            } else {
+                return ResponseEntity.status(404).body("Utilisateur non trouvé");
+            }
+        } catch (Exception ex) {
+            logger.error("Erreur lors de la récupération de l'utilisateur: ", ex);
+            return ResponseEntity.status(500).body("Erreur interne du serveur.");
+        }
+    }
+    @PutMapping("/update")
+    public ResponseEntity<Object> updateUserInfo(@Valid @RequestBody UpdateUserDto updateUserDto, Authentication auth) {
+        try {
+            // Récupérer le nom d'utilisateur à partir du token JWT
+            String username = auth.getName();
+            UserApp user = repo.findByUsername(username);
+
+            if (user == null) {
+                return ResponseEntity.status(404).body("Utilisateur non trouvé");
+            }
+
+            // Mise à jour des informations de l'utilisateur
+            user.setFirstName(updateUserDto.getFirstName());
+            user.setLastName(updateUserDto.getLastName());
+            user.setEmail(updateUserDto.getEmail());
+            user.setAddress(updateUserDto.getAddress());
+
+            // Mise à jour du mot de passe
+            if (updateUserDto.getPassword() != null && !updateUserDto.getPassword().isEmpty()) {
+                BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+                user.setPassword(bCryptPasswordEncoder.encode(updateUserDto.getPassword()));
+            }
+
+            // Sauvegarder les nouvelles informations
+            repo.save(user);
+
+            // Retourner les informations mises à jour
+            return ResponseEntity.ok(user);
+        } catch (Exception ex) {
+            logger.error("Erreur lors de la mise à jour de l'utilisateur: ", ex);
+            return ResponseEntity.status(500).body("Erreur interne du serveur.");
+        }
+    }
+
+
+
     // Methode to login using password and username
 
     /*
