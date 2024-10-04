@@ -135,6 +135,24 @@ public class AcountController {
             return ResponseEntity.status(500).body("Erreur interne du serveur.");
         }
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteUserById(@PathVariable Long id) {
+        try {
+            // Vérifier si l'utilisateur existe
+            var user = repo.findById(id);
+            if (user.isPresent()) {
+                // Supprimer l'utilisateur
+                repo.deleteById(id);
+                return ResponseEntity.ok("Utilisateur supprimé avec succès");
+            } else {
+                return ResponseEntity.status(404).body("Utilisateur non trouvé");
+            }
+        } catch (Exception ex) {
+            logger.error("Erreur lors de la suppression de l'utilisateur: ", ex);
+            return ResponseEntity.status(500).body("Erreur interne du serveur.");
+        }
+    }
+
     @PutMapping("/update")
     public ResponseEntity<Object> updateUserInfo(@Valid @RequestBody UpdateUserDto updateUserDto, Authentication auth) {
         try {

@@ -108,8 +108,6 @@ function Recherche() {
                     </>
                 )}
             </div>
-
-            <Footer />
         </div>
     );
 }

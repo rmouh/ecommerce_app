@@ -20,8 +20,8 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
-    //@Column(nullable = false)
-    //private int stockQuantity;
+    @Column(nullable = false)
+    private int stockQuantity;
 
     @Column
     private String imageUrl;
@@ -86,13 +86,13 @@ public class Product {
         this.price = price;
     }
 
-    /*public int getStockQuantity() {
+    public int getStockQuantity() {  // Getter pour stockQuantity
         return stockQuantity;
     }
 
-    public void setStockQuantity(int stockQuantity) {
+    public void setStockQuantity(int stockQuantity) {  // Setter pour stockQuantity
         this.stockQuantity = stockQuantity;
-    }*/
+    }
 
     public String getImageUrl() {
         return imageUrl;

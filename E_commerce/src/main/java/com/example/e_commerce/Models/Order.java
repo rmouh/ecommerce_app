@@ -1,8 +1,8 @@
 package com.example.e_commerce.Models;
 
-
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -24,7 +24,7 @@ public class Order {
     private String status;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<OrderItem> orderItems;
+    private Set<OrderItem> orderItems = new HashSet<>(); // Initialisation avec un HashSet
 
     // Getters and Setters
 
@@ -36,6 +36,7 @@ public class Order {
         this.user = user;
         this.orderDate = orderDate;
         this.status = status;
+        this.orderItems = new HashSet<>(); // Initialiser orderItems ici également
     }
 
     public Long getId() {
@@ -77,7 +78,4 @@ public class Order {
     public void setOrderItems(Set<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
-
-// toString, equals, and hashCode methods (optional)
 }
-

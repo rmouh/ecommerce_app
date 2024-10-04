@@ -127,7 +127,7 @@ header nav ul li a
 
 #main-image
 {
-    height: 550px;
+    height: 635px;
     padding-top: 85px;
     background: url('../public/images/comm5.jpg')center;
 
@@ -145,46 +145,56 @@ header nav ul li a
 
 }
 /*STEPS index.php*/
+/*STEPS index.php*/
 #main-box
 {
     height: 350px;
     padding-top: 85px;
 }
+#steps {
+    margin-top: 50px; /* Espace en haut de la section */
+    margin-bottom: 50px; /* Espace en bas de la section */
+}
+#steps ul {
+    display: flex; /* Aligner les boîtes horizontalement */
+    flex-direction: row; /* Maintenir une disposition en ligne */
+    justify-content: space-between; /* Espacement égal entre les boîtes */
+    padding: 0; /* Supprimer le padding supplémentaire */
+    list-style: none; /* Supprimer les puces */
+}
 
-#steps ul
-{
-    margin: 70px 0;
+#steps ul li {
+    background-color: #0F5257; /* Couleur de fond */
+    border-radius: 15px; /* Coins arrondis */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre pour donner du relief */
+    width: 300px; /* Largeur fixe */
+    height: 300px; /* Hauteur fixe */
+    display: flex; /* Utiliser flexbox pour organiser le contenu de chaque boîte */
+    flex-direction: column; /* Placer le titre et la description verticalement */
+    justify-content: center; /* Aligner les éléments au début, vers le haut */
+    align-items: center; /* Centrer horizontalement le contenu */
+    text-align: center; /* Centrer le texte à l'intérieur de chaque boîte */
+    color: white; /* Couleur du texte en blanc */
+    padding: 20px; /* Espacement interne */
+    margin-right: 20px; /* Espacement entre les boîtes horizontalement */
 }
-#steps ul li
-{
-    width:300px;
-    float:left;
-    padding-top: 120px;
-    text-align: center;
-    margin-right: 10px;
 
+#steps ul li h4 {
+    margin-bottom: 10px; /* Espacement en dessous du titre */
+    font-size: 1.5em; /* Taille du texte du titre */
+    color: #ffffff; /* Couleur du titre en blanc pour contraste */
 }
-#steps h4
-{
-    text-transform: uppercase;
-    margin-bottom: 20px;
+
+#steps ul li p {
+    margin-top: 0; /* Pas d'espacement au-dessus */
+    font-size: 1em; /* Taille du texte de la description */
+    color: #ffffff; /* Couleur de la description en blanc */
 }
-#steps p
-{
-    margin-bottom: 20px;
-}
-#step1
-{
-    background: url(../public/images/livre.jpg) no-repeat top center;
-}
-#step2
-{
-    background: url(../public/images/livre.jpg) no-repeat top center;
-}
-#step3
-{
-    background: url(../public/images/livre.jpg)no-repeat top center;
-}
+
+
+
+
+
 
 /*POSSIBILITIES index.php*/
 .tendances-title {
@@ -203,9 +213,12 @@ header nav ul li a
     margin: 0 auto 20px auto;
     border-bottom: 1px solid #0F5257;
     padding-bottom: 20px;
+    text-align: center; /* Centre le texte horizontalement */
+    margin-bottom: 20px; /* Ajoute un espacement en dessous du titre */
 }
 
 .product-row {
+    margin-top: 50px;
     display: flex;  /* Utiliser flexbox pour aligner les produits en ligne */
     justify-content: space-between; /* Espace égal entre les produits */
 }

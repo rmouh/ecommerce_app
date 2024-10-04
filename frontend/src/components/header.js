@@ -10,7 +10,7 @@ function Header() {
                         <li><a href="/Recherche">Recherche</a></li>
                         <li><a href="/connexion">Se connecter</a></li>
                         <li><a href="/inscription">Sinscrire</a></li>
-                        <li><a href="/Profile">Profile</a></li>
+                        <li><a href="/Profile">Profil</a></li>
                     </ul>
                 </nav>
             </div>
