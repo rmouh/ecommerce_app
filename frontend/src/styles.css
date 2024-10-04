@@ -201,6 +201,7 @@ header nav ul li a
     margin-bottom: 50px;
 }
 
+
 #possiblities
 #possibilities {
     background-color: #efefef;
@@ -260,6 +261,54 @@ header nav ul li a
 }
 
 
+/* Styles pour la page d'article */
+.article-details {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    margin-top: 80px;
+}
+
+.product-container {
+    display: flex;
+    gap: 40px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.product-info {
+    max-width: 400px;
+}
+
+.quantity-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.button-add-cart {
+    color: #fff;
+    background-color: #0F5257;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.button-add-cart:hover {
+    background-color: #000000;
+}
 
 
 /*CONTACT index.php */
