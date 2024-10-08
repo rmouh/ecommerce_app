@@ -57,4 +57,20 @@ public class CommandeController {
     public List<Commande> getCommandesByUtilisateurId(@PathVariable Long utilisateurId) {
         return commandeService.getCommandesByUtilisateurId(utilisateurId);
     }
+
+
+
+
+    // Endpoint pour passer une commande en livraison et changer son statut
+    // Endpoint pour passer une commande en livraison
+    @PostMapping("/{id}/pass-to-delivery")
+    public ResponseEntity<String> passToDelivery(@PathVariable Long id, @RequestParam String address) {
+        try {
+            Commande commande = commandeService.passToDelivery(id, address);
+            return ResponseEntity.ok("Commande mise à jour avec succès: " + commande.getId());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body("Erreur: " + e.getMessage());
+        }
+    }
+
 }

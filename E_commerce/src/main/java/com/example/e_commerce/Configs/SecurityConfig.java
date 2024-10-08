@@ -59,7 +59,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/stripe/*").permitAll()
                         .requestMatchers("/api/collections/add").permitAll()
                         .requestMatchers("/cart/*").permitAll()
+                        .requestMatchers("/api/deliveries/*").permitAll()
+                        .requestMatchers("/api/deliveries/order/{orderId}").permitAll()
                         .requestMatchers("/api/cmd/*").permitAll()
+                        .requestMatchers("/api/cmd/{id}/pass-to-delivery").permitAll()
 
                         .anyRequest().authenticated()
                 )

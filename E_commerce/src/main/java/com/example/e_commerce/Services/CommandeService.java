@@ -2,7 +2,9 @@ package com.example.e_commerce.Services;
 
 
 import com.example.e_commerce.Models.Commande;
+import com.example.e_commerce.Models.Delivery;
 import com.example.e_commerce.Repositories.CommandeRepository;
+import com.example.e_commerce.Repositories.DeliveryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +14,13 @@ import java.util.Optional;
 
 @Service
 public class CommandeService {
+    @Autowired
+    private DeliveryRepository deliveryRepository;
+
 
     @Autowired
     private CommandeRepository commandeRepository;
+
 
     // Récupérer la liste des commandes
     public List<Commande> getAllCommandes() {
@@ -64,4 +70,30 @@ public class CommandeService {
         return commandeRepository.findByUtilisateurId(utilisateurId);
     }
 
+
+    // Méthode pour passer une commande en livraison
+    public Commande passToDelivery(Long id, String address) {
+        Commande commande = commandeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Commande non trouvée"));
+
+        // Changer le statut de la commande en 'en livraison'
+        commande.setStatut("En livraison");
+
+        // Enregistrer la commande mise à jour dans la base de données
+        commandeRepository.save(commande);
+
+        // Créer une nouvelle instance de Delivery
+        Delivery newDelivery = new Delivery();
+        newDelivery.setAddress(address); // L'adresse de livraison passée comme paramètre
+        newDelivery.setStatus("En livraison"); // Définir le statut initial
+
+        // Lier la livraison à la commande
+        newDelivery.setOrder(commande);
+
+        // Enregistrer la nouvelle livraison dans la base de données
+        deliveryRepository.save(newDelivery);
+
+        // Retourner la commande mise à jour
+        return commande;
+    }
 }
