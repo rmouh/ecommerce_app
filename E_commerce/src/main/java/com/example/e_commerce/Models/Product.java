@@ -1,10 +1,12 @@
 package com.example.e_commerce.Models;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name = "products")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Product {
 
     @Id
@@ -25,6 +27,7 @@ public class Product {
 
     @Column
     private String imageUrl;
+    @JsonIgnore
     @ManyToOne(optional=true)
     @JoinColumn(name = "collection_id", nullable = true)  // Foreign key vers Collection
     @JsonBackReference

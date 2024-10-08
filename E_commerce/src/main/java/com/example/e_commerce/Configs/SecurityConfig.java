@@ -51,6 +51,8 @@ public class SecurityConfig {
                         .requestMatchers("/products/").permitAll()
                         .requestMatchers("/account/login").permitAll()
                         .requestMatchers("/api/collections/add").permitAll()
+                        .requestMatchers("/cart/add/**").permitAll()
+                        .requestMatchers("/cart/my-cart").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt((Customizer.withDefaults())))

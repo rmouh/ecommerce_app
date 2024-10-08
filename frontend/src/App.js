@@ -8,7 +8,8 @@ import Inscription from './pages/Inscription/Inscription'; // Page Inscription
 import Recherche from './pages/Recherche/Recherche';  // Page Recherche
 import Profile from './pages/Profile/Profile';   // Page Profile
 import Article from './pages/Article/Article';   // Page Article
-
+import Panier from './pages/Panier/Panier';      // Page Panier
+import Commande from './pages/Commande/Commande';
 function App() {
     return (
         <Router>
@@ -31,6 +32,12 @@ function App() {
 
                 {/* Route pour la page d'inscription */}
                 <Route path="/inscription" element={<Inscription />} />
+
+                {/* Route pour la page du panier */}
+                <Route path="/panier" element={<Panier />} />
+
+                <Route path="/commande" element={<Commande />} />
+
             </Routes>
             <Footer />
         </Router>

@@ -1,10 +1,13 @@
 package com.example.e_commerce.Controllers;
 
 import com.example.e_commerce.Services.OrderService;
+import com.example.e_commerce.Models.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.example.e_commerce.Models.UserApp;
+import com.example.e_commerce.Repositories.UserRepository;
+import java.util.Optional;
 import java.security.Principal;
 
 @RestController
@@ -14,6 +17,9 @@ public class CartController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private UserRepository userRepository; // Inject the UserRepository
 
     // Ajouter un produit au panier de l'utilisateur connecté
     @PostMapping("/add/{productId}/{quantity}")
@@ -62,4 +68,29 @@ public class CartController {
             return ResponseEntity.status(400).body(result);
         }
     }
+    // Récupérer le panier de l'utilisateur connecté
+    @GetMapping("/my-cart")
+    public ResponseEntity<Object> getUserCart(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(401).body("Utilisateur non authentifié");
+        }
+
+        String username = principal.getName();
+        UserApp userApp = userRepository.findByUsername(username); // Use the instance of userRepository
+
+        if (userApp == null) {
+            return ResponseEntity.status(404).body("Utilisateur non trouvé.");
+        }
+
+        // Récupérer la commande en cours (le panier)
+        Optional<Order> cart = orderService.getCartByUserId(userApp.getId());
+
+        if (!cart.isPresent()) {
+            return ResponseEntity.status(404).body("Aucun panier trouvé.");
+        }
+
+        return ResponseEntity.ok(cart.get());
+    }
+
+
 }

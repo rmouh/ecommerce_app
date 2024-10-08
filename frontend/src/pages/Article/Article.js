@@ -20,7 +20,7 @@ function Article() {
                 setProduct(response.data);
                 setMessage('');
             } catch (error) {
-                setMessage('Erreur lors de la récupération de l\'article. Veuillez réessayer.');
+                setMessage("Erreur lors de la récupération de l'article. Veuillez réessayer.");
                 console.error('Erreur lors de la récupération de l\'article:', error);
             } finally {
                 setLoading(false);
@@ -39,16 +39,52 @@ function Article() {
     // Gérer l'ajout au panier
     const handleAddToCart = async () => {
         try {
-            const response = await axios.post(`http://localhost:8080/cart/add/${id}/${quantity}`, {}, {
-                withCredentials: true, // Inclure les cookies d'authentification si nécessaire
-            });
-            setSuccessMessage(response.data); // Utilisez le message renvoyé par le backend pour informer l'utilisateur
+            const token = localStorage.getItem('token'); // Récupérer le token depuis le localStorage
+
+            if (!token) {
+                setMessage("Veuillez vous connecter pour ajouter des articles au panier.");
+                return;
+            }
+
+            // Envoyer la requête pour ajouter au panier
+            const response = await axios.post(
+                `http://localhost:8080/cart/add/${id}/${quantity}`,
+                {},
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}` // Inclure le token dans les en-têtes de la requête
+                    },
+                    withCredentials: true,
+                }
+            );
+
+            // Si la requête est un succès, afficher le message
+            setSuccessMessage("L'article a été ajouté au panier avec succès !");
             setMessage('');
+
+            // Réinitialiser le message de succès après quelques secondes
+            setTimeout(() => {
+                setSuccessMessage('');
+            }, 3000);
+
         } catch (error) {
-            setMessage('Erreur lors de l\'ajout au panier. Veuillez réessayer.');
-            console.error('Erreur lors de l\'ajout au panier:', error);
+            // Gérer les erreurs et afficher un message détaillé
+            if (error.response && error.response.data) {
+                // Si le backend renvoie une raison spécifique de l'échec, l'afficher
+                setMessage(`Erreur: ${error.response.data}`);
+            } else {
+                // Autre type d'erreur (problème réseau, etc.)
+                setMessage('Une erreur est survenue lors de l\'ajout au panier. Veuillez réessayer.');
+            }
+
+            // Réinitialiser le message d'erreur après quelques secondes
+            setTimeout(() => {
+                setMessage('');
+            }, 3000);
         }
     };
+
+
 
     if (loading) {
         return (
@@ -120,6 +156,7 @@ function Article() {
                     <p>Produit non trouvé</p>
                 )}
             </div>
+            <Footer />
         </div>
     );
 }

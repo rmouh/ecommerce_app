@@ -1,5 +1,5 @@
 package com.example.e_commerce.Services;
-
+import org.springframework.transaction.annotation.Transactional;
 import com.example.e_commerce.Models.Order;
 import com.example.e_commerce.Models.OrderItem;
 import com.example.e_commerce.Models.Product;
@@ -244,6 +244,15 @@ public class OrderService {
         }
 
         return "Quantité mise à jour avec succès";
+    }
+    @Transactional
+    public Optional<Order> getCartByUserId(Long userId) {
+        Optional<UserApp> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            return orderRepository.findByUserAndStatus(user.get(), "PENDING");
+        } else {
+            throw new EntityNotFoundException("Utilisateur non trouvé avec l'ID : " + userId);
+        }
     }
 
 

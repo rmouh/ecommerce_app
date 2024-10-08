@@ -11,6 +11,7 @@ function Header() {
                         <li><a href="/connexion">Se connecter</a></li>
                         <li><a href="/inscription">Sinscrire</a></li>
                         <li><a href="/Profile">Profil</a></li>
+                        <li><a href="/Panier">Panier</a></li>
                     </ul>
                 </nav>
             </div>
