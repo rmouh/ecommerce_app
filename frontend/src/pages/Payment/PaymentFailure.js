@@ -1,12 +1,12 @@
 import React from 'react';
 
-function PaymentFailure() {
+const PaymentFailure = () => {
     return (
         <div>
-            <h2>Payment Failed</h2>
-            <p>Unfortunately, your payment could not be processed. Please try again.</p>
+            <h2>Paiement Échoué</h2>
+            <p>Une erreur est survenue lors du traitement de votre paiement. Veuillez réessayer.</p>
         </div>
     );
-}
+};
 
 export default PaymentFailure;

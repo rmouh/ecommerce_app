@@ -1,12 +1,12 @@
 import React from 'react';
 
-function PaymentSuccess() {
+const PaymentSuccess = () => {
     return (
         <div>
-            <h2>Payment Successful!</h2>
-            <p>Thank you for your purchase. Your payment was successful.</p>
+            <h2>Paiement Réussi</h2>
+            <p>Merci pour votre commande ! Vous recevrez un e-mail de confirmation sous peu.</p>
         </div>
     );
-}
+};
 
 export default PaymentSuccess;

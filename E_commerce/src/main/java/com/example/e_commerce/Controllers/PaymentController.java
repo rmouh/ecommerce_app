@@ -1,53 +1,50 @@
 package com.example.e_commerce.Controllers;
 
-
-import com.example.e_commerce.Configs.ExtractJWT;
-import com.example.e_commerce.Models.PaymentDto;
-import com.example.e_commerce.Services.PaymentService;
-import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.example.e_commerce.Models.PaymentRequest;
+import com.stripe.Stripe;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/payment/secure")
+@RequestMapping("/api/payments")
 public class PaymentController {
-    /*
-    @Autowired
-    private PaymentService paymentService;
 
-
-    /*
-        Attend une requête avec un corps contenant un objet de type PaymentInfoRequest.
-            {
-          "amount": 1000,
-          "currency": "usd",
-          "receiptEmail": "example@example.com"
-             }
-
-    */
-    /*
-    @PostMapping("/payment-intent")
-    public ResponseEntity<String> createPaymentIntent(@RequestBody PaymentDto paymentInfoRequest)
-            throws StripeException {
-
-        PaymentIntent paymentIntent = paymentService.createPaymentIntent(paymentInfoRequest);
-        String paymentStr = paymentIntent.toJson();
-
-        return new ResponseEntity<>(paymentStr, HttpStatus.OK);
+    public PaymentController() {
+        Stripe.apiKey = "sk_test_51Q5ofE04DVlvplqiymnHjjQMGNh1BDR5vI8CWcxEMAUnnMq5hYuzrw7V1BzJcEMdF8MASwhyCLjZ9xgwBXBpfBUE00mqmF1dun"; // Assurez-vous que la clé est correcte
     }
 
-    @PutMapping("/payment-complete")
-    public ResponseEntity<String> stripePaymentComplete(@RequestHeader(value="Authorization") String token)
-            throws Exception {
-        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
-        if (userEmail == null) {
-            throw new Exception("User email is missing");
-        }
-        return paymentService.stripePayment(userEmail);
+    @PostMapping("/create-session")
+    public Map<String, String> createCheckoutSession(@RequestBody PaymentRequest paymentRequest) throws Exception {
+        SessionCreateParams params = SessionCreateParams.builder()
+                .setMode(SessionCreateParams.Mode.PAYMENT)
+                .setSuccessUrl("http://localhost:8080/payment-success") // URL de redirection en cas de succès
+                .setCancelUrl("http://localhost:8080/payment-failure") // URL de redirection en cas d'échec
+                .addLineItem(
+                        SessionCreateParams.LineItem.builder()
+                                .setQuantity(paymentRequest.getQuantity())
+                                .setPriceData(
+                                        SessionCreateParams.LineItem.PriceData.builder()
+                                                .setCurrency("eur") // Monnaie
+                                                .setUnitAmount(paymentRequest.getAmount()) // Montant en cents
+                                                .setProductData(
+                                                        SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                                                .setName(paymentRequest.getProductName()) // Nom du produit
+                                                                .build()
+                                                )
+                                                .build()
+                                )
+                                .build()
+                )
+                .build();
+
+        Session session = Session.create(params);
+
+        Map<String, String> responseData = new HashMap<>();
+        responseData.put("sessionId", session.getId()); // Retourner l'ID de session
+        return responseData;
     }
-    */
 }
