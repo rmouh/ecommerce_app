@@ -64,7 +64,13 @@ public class ProductController {
             if (product.getCollection() != null) {
                 Optional<Collection> collectionOptional = collectionRepository.findById(product.getCollection().getId());
                 if (collectionOptional.isPresent()) {
-                    product.setCollection(collectionOptional.get());
+                    Collection collection = collectionOptional.get();
+                    product.setCollection(collection);
+
+                    // Mettez à jour le nombre total de produits dans la collection
+                    Long newNbProducts = collection.getNbProducts() + product.getStockQuantity();
+                    collection.setNbProducts(newNbProducts);
+                    collectionRepository.save(collection); // Sauvegardez la collection avec le nombre mis à jour
                 } else {
                     return ResponseEntity.status(404).body("Collection non trouvée");
                 }

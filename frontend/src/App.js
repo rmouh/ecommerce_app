@@ -1,13 +1,16 @@
 import './styles.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/header';
 import Footer from './components/Footer';
-import Home from './pages/Home/Home';          // Page d'accueil
-import Connexion from './pages/Connexion/Connexion';  // Page Connexion
-import Inscription from './pages/Inscription/Inscription'; // Page Inscription
-import Recherche from './pages/Recherche/Recherche';  // Page Recherche
-import Profile from './pages/Profile/Profile';   // Page Profile
-import Article from './pages/Article/Article';   // Page Article
+
+import Home from './pages/Home/Home';
+import Connexion from './pages/Connexion/Connexion';
+import Inscription from './pages/Inscription/Inscription';
+import Recherche from './pages/Recherche/Recherche';
+import Profile from './pages/Profile/Profile';
+import PaymentPage from './pages/Payment/PaymentPage';
+import PaymentSuccess from './pages/Payment/PaymentSuccess';
+import PaymentFailure from './pages/Payment/PaymentFailure';
 
 function App() {
     return (
@@ -31,6 +34,17 @@ function App() {
 
                 {/* Route pour la page d'inscription */}
                 <Route path="/inscription" element={<Inscription />} />
+    {/*
+                <Route path="/" element={<Navigate to="/home" />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/payment" element={<PaymentPage />} />
+                <Route path="/payment-success" element={<PaymentSuccess />} />
+                <Route path="/payment-failure" element={<PaymentFailure />} />
+                <Route path="/recherche" element={<Recherche />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/connexion" element={<Connexion />} />
+*/}
+
             </Routes>
             <Footer />
         </Router>

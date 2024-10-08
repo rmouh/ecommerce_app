@@ -72,4 +72,37 @@ public class CollectionController {
             return ResponseEntity.status(500).body("Erreur lors de la suppression de la collection");
         }
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Object> updateCollection(@PathVariable Long id, @RequestBody Collection collectionDetails) {
+        try {
+            Optional<Collection> collectionOptional = collectionRepository.findById(id);
+            if (!collectionOptional.isPresent()) {
+                return ResponseEntity.status(404).body("Collection non trouvée");
+            }
+
+            Collection collection = collectionOptional.get();
+
+            // Mettre à jour le nom si fourni
+            if (collectionDetails.getName() != null && !collectionDetails.getName().isEmpty()) {
+                collection.setName(collectionDetails.getName());
+            }
+
+            // Mettre à jour la description si fournie
+            if (collectionDetails.getDescription() != null && !collectionDetails.getDescription().isEmpty()) {
+                collection.setDescription(collectionDetails.getDescription());
+            }
+
+            // Mettre à jour le stock si fourni et non négatif
+            if (collectionDetails.getNbProducts() != null && collectionDetails.getNbProducts() >= 0) {
+                collection.setNbProducts(collectionDetails.getNbProducts());
+            }
+
+            Collection updatedCollection = collectionRepository.save(collection);
+            return ResponseEntity.ok(updatedCollection);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erreur lors de la mise à jour de la collection");
+        }
+    }
+
 }

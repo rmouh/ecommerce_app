@@ -246,5 +246,80 @@ public class OrderService {
         return "Quantité mise à jour avec succès";
     }
 
+    // Méthode pour supprimer tous les produits du panier de l'utilisateur connecté
+    public String removeAllProductsFromCart(String username) {
+        // Récupérer l'utilisateur connecté
+        UserApp userApp = userRepository.findByUsername(username);
+        if (userApp == null) {
+            return "Utilisateur non trouvé";
+        }
+
+        // Récupérer la commande en cours
+        Optional<Order> optionalOrder = orderRepository.findByUserAndStatus(userApp, "PENDING");
+        if (!optionalOrder.isPresent()) {
+            return "Aucune commande en cours trouvée";
+        }
+
+        Order order = optionalOrder.get();
+
+        // Parcourir tous les éléments de commande pour mettre à jour les quantités de stock
+        for (OrderItem orderItem : order.getOrderItems()) {
+            Product product = orderItem.getProduct();
+            product.setStockQuantity(product.getStockQuantity() + orderItem.getQuantity());
+            productRepository.save(product);
+        }
+
+        // Supprimer tous les éléments de commande
+        orderItemRepository.deleteAll(order.getOrderItems());
+        order.getOrderItems().clear();
+        orderRepository.save(order); // Sauvegarder l'état de la commande
+
+        return "Tous les produits ont été retirés du panier avec succès";
+    }
+    // Méthode pour supprimer un produit spécifique du panier de l'utilisateur
+    public String removeOneProductFromCart(String username, Long productId) {
+        // Récupérer l'utilisateur connecté
+        UserApp userApp = userRepository.findByUsername(username);
+        if (userApp == null) {
+            return "Utilisateur non trouvé";
+        }
+
+        // Récupérer la commande en cours
+        Optional<Order> optionalOrder = orderRepository.findByUserAndStatus(userApp, "PENDING");
+        if (!optionalOrder.isPresent()) {
+            return "Aucune commande en cours trouvée";
+        }
+
+        Order order = optionalOrder.get();
+
+        // Vérifier si le produit est dans le panier
+        Optional<OrderItem> optionalOrderItem = order.getOrderItems().stream()
+                .filter(orderItem -> orderItem.getProduct().getId().equals(productId))
+                .findFirst();
+
+        if (!optionalOrderItem.isPresent()) {
+            return "Produit non trouvé dans le panier";
+        }
+
+        // Supprimer l'élément de commande du panier
+        OrderItem orderItem = optionalOrderItem.get();
+        Product product = orderItem.getProduct();
+
+        // Récupérer la quantité à supprimer
+        int quantityToRemove = orderItem.getQuantity();
+
+        // Mettre à jour la quantité du produit dans le stock
+        product.setStockQuantity(product.getStockQuantity() + quantityToRemove);
+        productRepository.save(product);
+
+        // Supprimer l'élément de commande du panier
+        order.getOrderItems().remove(orderItem);
+        orderItemRepository.delete(orderItem);
+
+        return "Produit retiré du panier avec succès";
+    }
+
+
+
 
 }
