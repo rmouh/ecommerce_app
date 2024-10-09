@@ -2,6 +2,7 @@ package com.example.e_commerce.Controllers;
 
 import com.example.e_commerce.Models.*;
 import com.example.e_commerce.Repositories.UserRepository;
+import com.example.e_commerce.Services.UserService;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.*;
@@ -22,9 +23,11 @@ import static com.example.e_commerce.Configs.SecurityConfig.SECRET_KEY;
 import org.slf4j.Logger; // Import pour le logger
 import org.slf4j.LoggerFactory; // Import pour le logger
 
+import java.security.Principal;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -33,18 +36,13 @@ public class AcountController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    // Déclaration du Logger
     private static final Logger logger = LoggerFactory.getLogger(AcountController.class);
-
-
-    //reading the jeson web token params from properties
-    //@Value("$security.jwt.secret-key")
-    //public static final String SECRET_KEY = "586E3272357538782F413F4428472B4B6250655368566B597033733676397924";
     private String jwtSecretKey=SECRET_KEY;
 
     @Value("$security.jwt.issuer")
     private String jwtIssuer;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserRepository repo;
@@ -53,21 +51,21 @@ public class AcountController {
         return "Home page";
     }
 
-    @PostMapping("/register")
-    //RegistDto ibject contains the submited data
-    //result used to check if data is valid
 
-    //Methode to register a new user
 
-    /*
+       /*
+       //Methode to register a new user
+       Exemple:
     {
-    "firstName": "Rankkissxcfcxswca",
-    "lastName": "Manklwsfsvxxcxswxw!l",
+    "firstName": "Rania",
+    "lastName": "Manel",
     "password": "Myspdsjcxxvsssvfsbvjjjjs123",
-    "email": "ranabbFsùvxmksfsjwxDQ@gmail.com",
-    "username": "randjlsvxsxnFsFFlfmanel00"
+    "email": "rania@gmail.com",
+    "username": "ranmanel00"
     }
     */
+    @PostMapping("/register")
+
     public ResponseEntity<Object> register(
             @Valid @RequestBody RegisterDto registerDto, BindingResult result){
 
@@ -89,6 +87,7 @@ public class AcountController {
         user.setUsername(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
         user.setRole("client");
+        //user.setAddress(registerDto.getAddress());
         user.setCreatedAt(new Date());
         user.setPassword(bCryptEncoder.encode((registerDto.getPassword())));
 
@@ -263,6 +262,7 @@ public class AcountController {
                 JwsHeader.with(MacAlgorithm.HS256).build(), claims);
         return encoder.encode(params).getTokenValue();
     }
+
 
 
 

@@ -22,6 +22,25 @@ public class RegisterDto {
         private String address;
 
         private String phone;
+        private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    private String adresse;
         @NotEmpty
         @Size(min=6, message = "Minimul Password length is 6 characters")
         private String password;

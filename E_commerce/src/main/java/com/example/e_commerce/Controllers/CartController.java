@@ -47,7 +47,7 @@ public class CartController {
 
         String username = principal.getName();
         String result = orderService.removeProductFromCart(productId, quantity, username);
-        if (result.equals("Produit retiré du panier avec succès")) {
+        if (result.equals("Quantite de produit retiré du panier avec succès")) {
             return ResponseEntity.ok(result);
         } else {
             return ResponseEntity.status(400).body(result);
@@ -68,6 +68,7 @@ public class CartController {
             return ResponseEntity.status(400).body(result);
         }
     }
+
     // Récupérer le panier de l'utilisateur connecté
     @GetMapping("/my-cart")
     public ResponseEntity<Object> getUserCart(Principal principal) {
@@ -91,6 +92,5 @@ public class CartController {
 
         return ResponseEntity.ok(cart.get());
     }
-
 
 }

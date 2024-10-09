@@ -51,4 +51,6 @@ public class Delivery {
     public void setOrder(Commande order) {
         this.order = order;
     }
+
+}
 }

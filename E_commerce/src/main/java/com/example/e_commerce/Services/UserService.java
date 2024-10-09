@@ -3,6 +3,8 @@ package com.example.e_commerce.Services;
 
 
 import com.example.e_commerce.Models.*;
+import com.example.e_commerce.Repositories.CommandeRepository;
+import com.example.e_commerce.Repositories.OrderRepository;
 import com.example.e_commerce.Repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,11 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repo;
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private CommandeRepository commandeRepository;
 
     @Autowired
     private OrderService orderService;  // Si tu as un service pour les commandes
@@ -57,6 +64,13 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
+
+    // Récupérer l'historique des commandes de l'utilisateur
+
+
+
+
+
     /*
 
     @Autowired
