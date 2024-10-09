@@ -88,7 +88,7 @@ function Panier() {
                         ))}
 
                         {/* Bouton pour valider le panier et rediriger vers la page commande */}
-                        
+
                         <div className="cart-footer">
                             <button className="checkout-button" onClick={handleValidation}>
                                 Valider le panier et passer au paiement

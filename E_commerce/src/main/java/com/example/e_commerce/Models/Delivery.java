@@ -1,9 +1,6 @@
 package com.example.e_commerce.Models;
 
-import com.example.e_commerce.Models.Commande;
-import com.example.e_commerce.Models.Order;
 import jakarta.persistence.*;
-
 
 @Entity
 public class Delivery {
@@ -51,6 +48,4 @@ public class Delivery {
     public void setOrder(Commande order) {
         this.order = order;
     }
-
-}
 }
